@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.LayerLabelController">
+   <children>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="label" alignment="CENTER" prefHeight="50.0" prefWidth="150.0" text="新規レイヤー" />
+            <TextField fx:id="field" alignment="CENTER" visible="false">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </TextField>
+            <ImageView fx:id="buttonImage" fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../assets/eye.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+      <TitledPane animated="false" expanded="false" text="グループ">
+         <content>
+            <VBox prefHeight="0.0" />
+         </content>
+      </TitledPane>
+   </children>
+</VBox>

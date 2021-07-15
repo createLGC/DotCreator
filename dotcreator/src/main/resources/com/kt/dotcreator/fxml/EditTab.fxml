@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<Tab fx:id="tab" text="新規プロジェクト" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.EditTabController">
+   <content>
+      <ScrollPane fitToHeight="true" fitToWidth="true">
+         <content>
+            <VBox alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <StackPane fx:id="field" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 1px;" HBox.hgrow="NEVER">
+                           <children>
+                              <Canvas fx:id="gridCanvas" height="200.0" width="200.0" />
+                           </children></StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </content>
+</Tab>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.ColorChooserController">
+   <children>
+      <Rectangle fx:id="colorSample" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0">
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Rectangle>
+      <TextField fx:id="colorCodeField" alignment="CENTER" text="#000000">
+         <VBox.margin>
+            <Insets bottom="10.0" left="15.0" right="15.0" />
+         </VBox.margin>
+      </TextField>
+      <fx:include fx:id="rChooser" source="RgbaChooser.fxml" />
+      <fx:include fx:id="gChooser" source="RgbaChooser.fxml" />
+      <fx:include fx:id="bChooser" source="RgbaChooser.fxml" />
+      <fx:include fx:id="aChooser" source="RgbaChooser.fxml" />
+   </children>
+</VBox>
