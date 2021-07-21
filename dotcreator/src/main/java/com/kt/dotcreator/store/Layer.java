@@ -37,11 +37,7 @@ public class Layer {
         FXMLLoader labelLoader = new FXMLLoader(this.getClass().getResource(LAYER_LABEL_FXML_PATH));
         try{
             this.label = (VBox) labelLoader.load();
-            this.label.setOnMouseClicked(e->{
-                project.setCurrentLayer(this);
-                for(Layer layer: project.getLayerList()){layer.getLabel().setStyle("");}
-                this.label.setStyle("-fx-background-color: #aaa");
-            });
+            this.label.setOnMouseClicked(e->project.setCurrentLayer(this));
             this.labelController = (LayerLabelController) labelLoader.getController();
             this.canvas = new LayerCanvas(project);
             this.labelController.setOnVisibleChange(()->this.canvas.toggleVisible());
@@ -62,11 +58,7 @@ public class Layer {
         try{
             this.label = (VBox) labelLoader.load();
             this.labelController = (LayerLabelController) labelLoader.getController();
-            this.labelController.getRoot().setOnMouseClicked(e->{
-                project.setCurrentLayer(this);
-                for(Layer layer: project.getLayerList()){layer.getLabel().setStyle("");}
-                this.label.setStyle("-fx-background-color: #aaa");
-            });
+            this.labelController.getRoot().setOnMouseClicked(e->project.setCurrentLayer(this));
             this.labelController.init(data);
             this.canvas = new LayerCanvas(project, data);
             this.labelController.setOnVisibleChange(()->this.canvas.toggleVisible());

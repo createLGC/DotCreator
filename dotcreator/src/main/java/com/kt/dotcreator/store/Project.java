@@ -84,7 +84,11 @@ public class Project {
 
     public ArrayList<Layer> getLayerList(){return this.layerList;}
     public Layer getCurrentLayer(){return this.currentLayer;}
-    public void setCurrentLayer(Layer layer){this.currentLayer = layer;}
+    public void setCurrentLayer(Layer layer){
+    	this.currentLayer = layer;
+    	for(Layer innerLayer: this.getLayerList()){innerLayer.getLabel().setStyle("");}
+        this.currentLayer.getLabel().setStyle("-fx-background-color: #aaa");
+    }
     
     private static final String EDIT_TAB_FXML_PATH = "/com/kt/dotcreator/fxml/EditTab.fxml";
 
@@ -157,6 +161,7 @@ public class Project {
         	this.editTabController.getField().getChildren().remove(layer.getCanvas());
         	this.layerList.remove(layer);
         });
+        this.setCurrentLayer(layer);
     }
 
     /**

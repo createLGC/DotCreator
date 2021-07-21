@@ -110,8 +110,8 @@ public class MainController implements Initializable{
             		ex.printStackTrace();
             	}
             	this.currentProject = project;
-            	layerPanel.getChildren().clear();
-            	this.currentProject.addLayer(layerPanel);
+            	this.layerPanel.getChildren().clear();
+            	this.currentProject.addLayer(this.layerPanel);
             	this.colorChooserController.init(this.currentProject.getColor());
             	this.projectList.add(this.currentProject);
             });
