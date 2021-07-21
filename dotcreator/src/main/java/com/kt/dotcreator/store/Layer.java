@@ -31,7 +31,7 @@ public class Layer {
      * labelクリック時に他のlabelのbackground-colorをデフォルトに戻し、自分のlabelを暗くする。
      * labelControllerを上記から取得。
      * canvasを新しく生成。
-     * labelControllerに目のアイコンをクリックしたときに実行される処理である{@code canvas.setVisible(!canvas.isVisible())}を渡す。
+     * labelControllerに目のアイコンをクリックしたときに実行される処理である{@code canvas.toggleVisible()}を渡す。
      */
     public Layer(Project project){
         FXMLLoader labelLoader = new FXMLLoader(this.getClass().getResource(LAYER_LABEL_FXML_PATH));
@@ -44,7 +44,7 @@ public class Layer {
             });
             this.labelController = (LayerLabelController) labelLoader.getController();
             this.canvas = new LayerCanvas(project);
-            this.labelController.setOnVisibleChange(()->this.canvas.setVisible(!this.canvas.isVisible()));
+            this.labelController.setOnVisibleChange(()->this.canvas.toggleVisible());
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -61,18 +61,22 @@ public class Layer {
         FXMLLoader labelLoader = new FXMLLoader(this.getClass().getResource(LAYER_LABEL_FXML_PATH));
         try{
             this.label = (VBox) labelLoader.load();
-            this.label.setOnMouseClicked(e->{
+            this.labelController = (LayerLabelController) labelLoader.getController();
+            this.labelController.getRoot().setOnMouseClicked(e->{
                 project.setCurrentLayer(this);
                 for(Layer layer: project.getLayerList()){layer.getLabel().setStyle("");}
                 this.label.setStyle("-fx-background-color: #aaa");
             });
-            this.labelController = (LayerLabelController) labelLoader.getController();
             this.labelController.init(data);
             this.canvas = new LayerCanvas(project, data);
-            this.labelController.setOnVisibleChange(()->this.canvas.setVisible(!this.canvas.isVisible()));
+            this.labelController.setOnVisibleChange(()->this.canvas.toggleVisible());
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+    
+    public void setOnDelete(Runnable onDelete) {
+    	this.labelController.setOnDelete(onDelete);
     }
 
     public VBox getLabel(){

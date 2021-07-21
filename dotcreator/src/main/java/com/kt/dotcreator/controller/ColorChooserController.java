@@ -225,20 +225,21 @@ public class ColorChooserController implements Initializable{
         this.saveAssetBtn.setOnAction(e->{
         	FXMLLoader assetLabelLoader = new FXMLLoader(this.getClass().getResource(ASSET_LABEL_PATH));
             try{
-                HBox assetLabel = (HBox) assetLabelLoader.load();
-                this.assetLabelContainer.getChildren().add(assetLabel);
+                assetLabelLoader.load();
                 AssetLabelController controller = (AssetLabelController) assetLabelLoader.getController();
-                controller.init(this.color, this.getColorCode(this.getRgba(this.color)));
-                assetLabel.setOnMouseClicked(event->{
-                	int[] rgba = this.getRgba(controller.getColor());
-                	this.colorCodeField.setText(this.getColorCode(rgba));
-                	for(int i = 0; i < 3; i++){
-                        this.rgbaChooserControllers[i].setValue(rgba[i]);
-                    }
-                	this.setColor(rgba);
-                	for(Node node: this.assetLabelContainer.getChildren()){node.setStyle("");}
-                    assetLabel.setStyle("-fx-background-color: #aaa");
-                });
+                this.assetLabelContainer.getChildren().add(controller.getRoot());
+                controller.init(
+                	this.color, 
+                	this.getColorCode(this.getRgba(this.color)),
+                	event->{
+                		int[] rgba = this.getRgba(controller.getColor());
+                		this.colorCodeField.setText(this.getColorCode(rgba));
+                		for(int i = 0; i < 3; i++){this.rgbaChooserControllers[i].setValue(rgba[i]);}
+                		this.setColor(rgba);
+                		for(Node node: this.assetLabelContainer.getChildren()){node.setStyle("");}
+                		controller.getRoot().setStyle("-fx-background-color: #aaa");
+                	}
+                );
             }catch(IOException ex){
                 ex.printStackTrace();
             }

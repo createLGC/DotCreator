@@ -24,7 +24,7 @@ public class LayerCanvas extends Canvas{
     public SquareData[][] getContents(){return this.contents;}
 
     /**
-     * contentsの要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
+     * 引数contentsの要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
      * ImageDataのインスタンスの時、Imageを生成し描画。
      * @param contents SquareData[][] LayerDataから取得。一時限目のインデックスがy座標の何番目か、二次元目のインデックスがx座標の何番目かを表す。
      */
@@ -47,7 +47,7 @@ public class LayerCanvas extends Canvas{
     }
 
     /**
-     * 新規レイヤー生成時
+     * 新規レイヤー生成時に使用。
      * contentsをSquareDataの配列で初期化。
      * @see com.kt.dotcreator.store.SquareData
      * @param project 新規プロジェクトまたはMainController.currentProject
@@ -73,6 +73,13 @@ public class LayerCanvas extends Canvas{
         this.ctx = this.getGraphicsContext2D();
         this.setVisible(data.isVisible());
         this.setContents(data.getContents());
+    }
+    
+    /**
+     * layerCanvasの表示・非表示を切り替える。
+     */
+    public void toggleVisible() {
+    	this.setVisible(!this.isVisible());
     }
 
     /**

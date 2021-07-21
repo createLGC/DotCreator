@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.LayerLabelController">
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.LayerLabelController">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0">
          <children>
@@ -19,9 +19,17 @@
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </TextField>
-            <ImageView fx:id="buttonImage" fitHeight="30.0" fitWidth="30.0">
+            <ImageView fx:id="visibleBtn" fitHeight="30.0" fitWidth="30.0">
                <image>
                   <Image url="@../assets/eye.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="deleteBtn" fitHeight="10.0" fitWidth="10.0">
+               <image>
+                  <Image url="@../assets/delete.png" />
                </image>
                <HBox.margin>
                   <Insets right="10.0" />

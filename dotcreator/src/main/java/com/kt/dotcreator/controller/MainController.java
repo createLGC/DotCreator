@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -50,6 +51,11 @@ public class MainController implements Initializable{
 
     @FXML
     TabPane tabPane;
+    
+    void addTab(Tab editTab) {
+    	tabPane.getTabs().add(editTab);
+        tabPane.getSelectionModel().select(editTab);
+    }
 
     @FXML
     VBox layerPanel;
@@ -83,11 +89,17 @@ public class MainController implements Initializable{
 
         this.createNewProject.setOnAction(e->{
             new PicturePropertySetter((numOfSquaresASide, squareSize)->{
-                this.currentProject = new Project(
-                    numOfSquaresASide, squareSize, this.tabPane, this.layerPanel
-                );
-                this.colorChooserController.init(this.currentProject.getColor());
-                this.projectList.add(this.currentProject);
+            	Project project = new Project(numOfSquaresASide, squareSize);
+            	try {
+            		this.addTab(project.loadEditTab());
+            	}catch(IOException ex) {
+            		ex.printStackTrace();
+            	}
+            	this.currentProject = project;
+            	layerPanel.getChildren().clear();
+            	this.currentProject.addLayer(layerPanel);
+            	this.colorChooserController.init(this.currentProject.getColor());
+            	this.projectList.add(this.currentProject);
             });
         });
 
@@ -103,9 +115,9 @@ public class MainController implements Initializable{
                 String line;
                 while((line = br.readLine()) != null){buffer.append(line);}
                 this.currentProject = new Project(
-                    JsonHandler.decodeProject(buffer.toString()),
-                    this.tabPane, this.layerPanel
+                	JsonHandler.decodeProject(buffer.toString()), this.layerPanel
                 );
+                this.addTab(this.currentProject.loadEditTab());
                 this.colorChooserController.init(this.currentProject.getColor());
                 this.projectList.add(this.currentProject);
             }catch(IOException ex){

@@ -6,6 +6,7 @@ module com.kt.dotcreator {
 	requires com.fasterxml.jackson.databind;
 	requires java.desktop;
 	requires javafx.graphics;
+	requires javafx.base;
 
     opens com.kt.dotcreator to javafx.fxml;
     opens com.kt.dotcreator.controller to javafx.fxml;

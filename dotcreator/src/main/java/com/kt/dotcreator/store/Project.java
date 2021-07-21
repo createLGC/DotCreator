@@ -1,5 +1,6 @@
 package com.kt.dotcreator.store;
 
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,10 +14,11 @@ import com.kt.dotcreator.controller.EditTabController;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * プロジェクトの情報を持つ
@@ -82,18 +84,13 @@ public class Project {
      * @param tabPane editTabを追加するためにMainControllerから取得
      * editTabをtabPaneに追加し、選択された状態にする。editTabを閉じたときにプロジェクトファイルを保存。
      */
-    private void loadEditTab(TabPane tabPane){
+    public Tab loadEditTab() throws IOException {
         FXMLLoader editTabLoader = new FXMLLoader(this.getClass().getResource(EDIT_TAB_FXML_PATH));
-        try{
-            Tab editTab = (Tab) editTabLoader.load();
-            editTab.setOnClosed(e->this.saveFile());
-            tabPane.getTabs().add(editTab);
-            tabPane.getSelectionModel().select(editTab);
-            this.editTabController = editTabLoader.getController();
-            this.editTabController.init(this);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        Tab editTab = (Tab) editTabLoader.load();
+        this.editTabController = editTabLoader.getController();
+        this.editTabController.init(this);
+        
+        return editTab;
     }
 
     /**
@@ -104,17 +101,13 @@ public class Project {
      * @param tabPane editTabを追加するためにMainControllerから取得
      * @param layerPanel layerを追加するためにMainControllerから取得
      */
-    public Project(int numOfSquaresASide, int squareSize, TabPane tabPane, VBox layerPanel){
+    public Project(int numOfSquaresASide, int squareSize){
         this.title = "新規プロジェクト";
         this.numOfSquaresASide = numOfSquaresASide;
         this.squareSize = squareSize;
         this.zoomRate = 10;
         this.toolType = ToolType.Pen;
         this.color = Color.rgb(0, 0, 0, 1);
-
-        this.loadEditTab(tabPane);
-        layerPanel.getChildren().clear();
-        this.addLayer(layerPanel);
     }
 
     /**
@@ -124,7 +117,7 @@ public class Project {
      * @param tabPane TabPane
      * @param layerPanel LayerPanel
      */
-    public Project(ProjectData data, TabPane tabPane, VBox layerPanel){
+    public Project(ProjectData data, VBox layerPanel){
         this.setTitle(data.getTitle());
         this.setNumOfSquaresASide(data.getNumOfSquaresASide());
         this.setSquareSize(data.getSquareSize());
@@ -132,7 +125,6 @@ public class Project {
         this.setToolType(data.getToolType());
         this.setColor(data.getColorData().getColor());
 
-        this.loadEditTab(tabPane);
         layerPanel.getChildren().clear();
         for(LayerData layerData: data.getLayerDataList()){
             this.addLayer(new Layer(this, layerData), layerPanel);
@@ -152,6 +144,11 @@ public class Project {
         layerPanel.getChildren().add(layer.getLabel());
         this.editTabController.addLayer(layer.getCanvas());
         this.layerList.add(layer);
+        layer.setOnDelete(()->{
+        	layerPanel.getChildren().remove(layer.getLabel());
+        	this.editTabController.getField().getChildren().remove(layer.getCanvas());
+        	this.layerList.remove(layer);
+        });
     }
 
     /**
@@ -165,29 +162,38 @@ public class Project {
     /**
      * プロジェクトファイルを保存
      */
-    public void saveFile(){
-        try{
-            File file = new File(System.getProperty("user.home") + "/" + this.title + ".json");
-            file.createNewFile();
-            FileWriter writer = new FileWriter(file);
-            writer.write(JsonHandler.encodeProject(this.createProjectData()));
-            writer.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+    public void saveFile() {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle( "ファイル保存" );
+    	fileChooser.setInitialDirectory( new File(System.getProperty("user.home")) );
+    	fileChooser.setInitialFileName(this.title + ".json");
+    	File file= fileChooser.showSaveDialog(new Stage());
+    	try{
+    		if(file == null) return;
+    		file.createNewFile();
+    		FileWriter writer = new FileWriter(file);
+    		writer.write(JsonHandler.encodeProject(this.createProjectData()));
+    		writer.close();
+    	}catch(IOException e){
+    		e.printStackTrace();
+    	}
     }
 
     /**
      * 画像を保存
      */
     public void saveImage(){
-        var wi = new WritableImage(this.getImageSize(), this.getImageSize());
-        this.editTabController.snapshot(wi);
-        var ri = SwingFXUtils.fromFXImage(wi, null);
-        var f = new File(System.getProperty("user.home") + "/" + this.title + ".png");
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle( "ファイル保存" );
+    	fileChooser.setInitialDirectory( new File(System.getProperty("user.home")) );
+    	fileChooser.setInitialFileName(this.title + ".png");
+    	File file= fileChooser.showSaveDialog(new Stage());
         try{
-            f.createNewFile();
-            ImageIO.write(ri, "png", f);
+        	if(file == null) return;
+            file.createNewFile();
+            WritableImage wi = this.editTabController.snapshot(new WritableImage(this.getImageSize(), this.getImageSize()));
+            RenderedImage ri = SwingFXUtils.fromFXImage(wi, null);
+            ImageIO.write(ri, "png", file);
         }catch(IOException e){
             e.printStackTrace();
         }

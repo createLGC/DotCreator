@@ -1,19 +1,34 @@
 package com.kt.dotcreator.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import java.util.Optional;
 
 import com.kt.dotcreator.component.LayerCanvas;
 import com.kt.dotcreator.store.Layer;
 import com.kt.dotcreator.store.Project;
 
+import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 public class EditTabController {
+	@FXML
+	private Tab root;
+	
     @FXML
     private StackPane field;
+    
+    public StackPane getField() {
+    	return this.field;
+    }
 
     @FXML
     private Canvas gridCanvas;
@@ -32,6 +47,16 @@ public class EditTabController {
         this.initGridCanvas(fieldSize);
         this.field.setOnMousePressed(this::draw);
         this.field.setOnMouseDragged(this::draw);
+        this.root.setOnClosed(e->{
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("プロジェクトの終了");
+            alert.setHeaderText(null);
+            alert.setContentText("プロジェクトを保存しますか?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+            	this.project.saveFile();
+            }
+        });
     }
 
     /**
@@ -77,15 +102,17 @@ public class EditTabController {
      * @see com.kt.dotcreator.store.Project#saveImage()
      * @param wi WritableImage
      */
-    public void snapshot(WritableImage wi){
+    public WritableImage snapshot(WritableImage wi){
         this.field.setScaleX(1.0 / this.project.getZoomRate());
         this.field.setScaleY(1.0 / this.project.getZoomRate());
         this.field.setStyle("-fx-border-width: 0px");
-        this.gridCanvas.setVisible(false);
+        this.gridCanvas.setVisible(false); 
         this.field.snapshot(null, wi);
         this.field.setScaleX(1.0);
         this.field.setScaleY(1.0);
         this.field.setStyle("-fx-border-color: black;-fx-border-width: 1px");
         this.gridCanvas.setVisible(true);
+        
+        return wi;
     }
 }
