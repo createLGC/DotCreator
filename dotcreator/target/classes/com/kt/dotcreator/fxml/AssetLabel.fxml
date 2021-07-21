@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kt.dotcreator.controller.AssetLabelController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="40.0">
+      <Rectangle fx:id="colorSample" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="30.0" stroke="BLACK" strokeType="INSIDE" width="30.0">
          <HBox.margin>
             <Insets left="5.0" />
          </HBox.margin>
       </Rectangle>
-      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="155.0" text="無題" textAlignment="CENTER" />
+      <Label fx:id="label" alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="155.0" textAlignment="CENTER" />
    </children>
 </HBox>

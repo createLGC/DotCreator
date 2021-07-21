@@ -43,7 +43,6 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -102,7 +101,6 @@
                      <children>
                         <fx:include fx:id="toolSelector" source="ToolSelector.fxml" />
                         <fx:include fx:id="colorChooser" source="ColorChooser.fxml" />
-                        <TitledPane expanded="false" prefWidth="200.0" text="アセット" />
                      </children>
                   </VBox>
                </content>

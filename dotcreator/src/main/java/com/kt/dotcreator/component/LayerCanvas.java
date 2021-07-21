@@ -1,16 +1,16 @@
 package com.kt.dotcreator.component;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-
 import com.kt.dotcreator.store.ColorData;
 import com.kt.dotcreator.store.ImageData;
 import com.kt.dotcreator.store.LayerData;
 import com.kt.dotcreator.store.Project;
 import com.kt.dotcreator.store.SquareData;
+
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  * クリックされたところにコンテンツを描画
@@ -24,9 +24,9 @@ public class LayerCanvas extends Canvas{
     public SquareData[][] getContents(){return this.contents;}
 
     /**
-     * @param contents SquareData[][] LayerDataから取得。一時限目のインデックスがy座標の何番目か、二次元目のインデックスがx座標の何番目かを表す。
-     * 要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
+     * contentsの要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
      * ImageDataのインスタンスの時、Imageを生成し描画。
+     * @param contents SquareData[][] LayerDataから取得。一時限目のインデックスがy座標の何番目か、二次元目のインデックスがx座標の何番目かを表す。
      */
     private void setContents(SquareData[][] contents){
         this.contents = contents;
@@ -47,9 +47,9 @@ public class LayerCanvas extends Canvas{
     }
 
     /**
-     * @see com.kt.dotcreator.store.SquareData
      * 新規レイヤー生成時
      * contentsをSquareDataの配列で初期化。
+     * @see com.kt.dotcreator.store.SquareData
      * @param project 新規プロジェクトまたはMainController.currentProject
      */
     public LayerCanvas(Project project){
@@ -60,12 +60,12 @@ public class LayerCanvas extends Canvas{
     }
     
     /**
-     * @see com.kt.dotcreator.store.LayerData
-     * ファイルからロード時
-     * @param project ロードしてできたプロジェクト
-     * @param data ロードしたLayerData
+     * ファイルからロード時に使用。
      * layerData.visibleから表示・非表示を設定。
      * layerData.contentsからレイヤーを描画。
+     * @see com.kt.dotcreator.store.LayerData
+     * @param project ロードしてできたプロジェクト
+     * @param data ロードしたLayerData
      */
     public LayerCanvas(Project project, LayerData data){
         super(project.getCanvasSize(), project.getCanvasSize());
@@ -76,18 +76,18 @@ public class LayerCanvas extends Canvas{
     }
 
     /**
+     * クリックされた座標を取得しどのブロックか判定。
+     * {@link MainController#currentProject#getToolType()}でtoolSelectorで選択されたToolTypeを取得。
+     * ToolTypeごとにオブジェクトを生成し描画。LayerCanvas.contentsに描画するオブジェクトをDataにして格納
      * @see com.kt.dotcreator.store.ToolType
      * @param e MouseEvent
-     * クリックされた座標を取得しどのブロックか判定。
-     * MainController.currentProject.getToolType()でtoolSelectorで選択されたToolTypeを取得。
-     * ToolTypeごとにオブジェクトを生成し描画。LayerCanvas.contentsに描画するオブジェクトをDataにして格納
      */
     public void drawSquare(MouseEvent e){
         int squareSize = this.project.getZoomedSquareSize();
         int canvasSize = this.project.getCanvasSize();
         int x = (int) e.getX();
         int y = (int) e.getY();
-        if(x > canvasSize || x < 0 || y > canvasSize || y < 0){
+        if(x >= canvasSize || x < 0 || y >= canvasSize || y < 0){
             return;
         }
 
