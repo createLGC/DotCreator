@@ -12,8 +12,64 @@ public class ProjectData {
     private int zoomRate;
     private ToolType toolType;
     private ColorData colorData;
-
+    
     private ArrayList<LayerData> layerDataList = new ArrayList<>();
+
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getNumOfSquaresASide() {
+		return numOfSquaresASide;
+	}
+
+	public void setNumOfSquaresASide(int numOfSquaresASide) {
+		this.numOfSquaresASide = numOfSquaresASide;
+	}
+
+	public int getSquareSize() {
+		return squareSize;
+	}
+
+	public void setSquareSize(int squareSize) {
+		this.squareSize = squareSize;
+	}
+
+	public int getZoomRate() {
+		return zoomRate;
+	}
+
+	public void setZoomRate(int zoomRate) {
+		this.zoomRate = zoomRate;
+	}
+
+	public ToolType getToolType() {
+		return toolType;
+	}
+
+	public void setToolType(ToolType toolType) {
+		this.toolType = toolType;
+	}
+
+	public ColorData getColorData() {
+		return colorData;
+	}
+
+	public void setColorData(ColorData colorData) {
+		this.colorData = colorData;
+	}
+
+	public ArrayList<LayerData> getLayerDataList() {
+		return layerDataList;
+	}
+
+	public void setLayerDataList(ArrayList<LayerData> layerDataList) {
+		this.layerDataList = layerDataList;
+	}
 
     /**
      * Serialize用のデフォルトコンストラクタ
@@ -25,34 +81,14 @@ public class ProjectData {
      * @param project 保存するプロジェクト
      */
     public ProjectData(Project project){
-        this.setTitle(project.getTitle());
-        this.setNumOfSquaresASide(project.getNumOfSquaresASide());
-        this.setSquareSize(project.getSquareSize());
-        this.setZoomRate(project.getZoomRate());
-        this.setToolType(project.getToolType());
-        this.setColorData(new ColorData(project.getColor()));
+        this.title = project.getTitle();
+        this.numOfSquaresASide = project.getNumOfSquaresASide();
+        this.squareSize = project.getSquareSize();
+        this.zoomRate = project.getZoomRate();
+        this.toolType = project.getToolType();
+        this.colorData = new ColorData(project.getColor());
         for(Layer layer: project.getLayerList()){
             this.layerDataList.add(new LayerData(layer));
         }
     }
-
-    public String getTitle(){return this.title;}
-    public void setTitle(String value){this.title = value;}
-
-    public int getNumOfSquaresASide(){ return this.numOfSquaresASide; }
-    public void setNumOfSquaresASide(int value){ this.numOfSquaresASide = value; }
-
-    public int getSquareSize(){ return this.squareSize; }
-    public void setSquareSize(int value){ this.squareSize = value; }
-
-    public int getZoomRate(){ return this.zoomRate; }
-    public void setZoomRate(int value){ this.zoomRate = value; }
-
-    public ToolType getToolType(){ return this.toolType; }
-    public void setToolType(ToolType value){ this.toolType = value; }
-
-    public ColorData getColorData(){ return this.colorData; }
-    public void setColorData(ColorData value){ this.colorData = value; }
-
-    public ArrayList<LayerData> getLayerDataList(){ return this.layerDataList; }
 }

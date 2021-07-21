@@ -238,6 +238,9 @@ public class ColorChooserController implements Initializable{
                 		this.setColor(rgba);
                 		for(Node node: this.assetLabelContainer.getChildren()){node.setStyle("");}
                 		controller.getRoot().setStyle("-fx-background-color: #aaa");
+                	},
+                	event->{
+                		this.assetLabelContainer.getChildren().remove(controller.getRoot());
                 	}
                 );
             }catch(IOException ex){

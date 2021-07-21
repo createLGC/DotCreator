@@ -32,13 +32,21 @@ public class Project {
     private Color color;
 
     public String getTitle(){return this.title;}
-    public void setTitle(String title){this.title = title;}
+    public void setTitle(String title){
+    	this.title = title;
+    	if(this.editTabController != null)
+    		this.editTabController.getRoot().setText(title);
+    }
     public int getNumOfSquaresASide(){return this.numOfSquaresASide;}
-    public void setNumOfSquaresASide(int value){this.numOfSquaresASide = value;}
+    public void setNumOfSquaresASide(int numOfSquaresASide){this.numOfSquaresASide = numOfSquaresASide;}
     public int getSquareSize(){return this.squareSize;}
-    public void setSquareSize(int value){this.squareSize = value;}
+    public void setSquareSize(int squareSize){this.squareSize = squareSize;}
     public int getZoomRate(){return this.zoomRate;}
-    public void setZoomRate(int value){this.zoomRate = value;}
+    public void setZoomRate(int zoomRate){
+    	this.zoomRate = zoomRate;
+    	if(this.editTabController != null)
+    		this.editTabController.resize();
+    }
     public ToolType getToolType(){return this.toolType;}
     public void setToolType(ToolType toolType){this.toolType = toolType;}
     public Color getColor(){return this.color;}
@@ -118,12 +126,12 @@ public class Project {
      * @param layerPanel LayerPanel
      */
     public Project(ProjectData data, VBox layerPanel){
-        this.setTitle(data.getTitle());
-        this.setNumOfSquaresASide(data.getNumOfSquaresASide());
-        this.setSquareSize(data.getSquareSize());
-        this.setZoomRate(data.getZoomRate());
-        this.setToolType(data.getToolType());
-        this.setColor(data.getColorData().getColor());
+        this.title = data.getTitle();
+        this.numOfSquaresASide = data.getNumOfSquaresASide();
+        this.squareSize = data.getSquareSize();
+        this.zoomRate = data.getZoomRate();
+        this.toolType = data.getToolType();
+        this.color = data.getColorData().getColor();
 
         layerPanel.getChildren().clear();
         for(LayerData layerData: data.getLayerDataList()){
@@ -157,6 +165,10 @@ public class Project {
      */
     public void addLayer(VBox layerPanel) {
         this.addLayer(new Layer(this), layerPanel);
+    }
+    
+    public void toggleGrid() {
+    	this.editTabController.toggleGrid();
     }
 
     /**

@@ -11,22 +11,13 @@
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="13.0">
-               <children>
-                  <Label prefWidth="100.0" text="プロジェクト名 ：" />
-                  <TextField fx:id="projectNameField" alignment="CENTER" prefWidth="100.0" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </HBox>
             <HBox alignment="CENTER">
                <children>
                   <Label prefWidth="100.0" text="辺のブロック数：　" />
                   <TextField fx:id="numOfSquaresASideField" alignment="CENTER" prefWidth="100.0" />
                </children>
                <VBox.margin>
-                  <Insets bottom="20.0" />
+                  <Insets bottom="30.0" />
                </VBox.margin>
             </HBox>
             <HBox alignment="CENTER">
@@ -35,7 +26,7 @@
                   <TextField fx:id="squareSizeField" alignment="CENTER" prefWidth="100.0" />
                </children>
                <VBox.margin>
-                  <Insets bottom="20.0" />
+                  <Insets bottom="30.0" />
                </VBox.margin>
             </HBox>
             <Button fx:id="button" mnemonicParsing="false" text="決定">

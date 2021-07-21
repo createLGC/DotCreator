@@ -30,7 +30,11 @@ public class LayerCanvas extends Canvas{
      */
     private void setContents(SquareData[][] contents){
         this.contents = contents;
-        int squareSize = this.project.getZoomedSquareSize();
+        this.drawContents();
+    }
+    
+    public void drawContents() {
+    	int squareSize = this.project.getZoomedSquareSize();
         for(int y = 0; y < this.contents.length; y++){
             for(int x = 0; x < this.contents[y].length; x++){
                 SquareData content = this.contents[y][x];

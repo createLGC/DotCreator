@@ -6,19 +6,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.kt.dotcreator.component.PicturePropertySetter;
 import com.kt.dotcreator.store.JsonHandler;
 import com.kt.dotcreator.store.Layer;
 import com.kt.dotcreator.store.Project;
+import com.kt.dotcreator.store.ProjectData;
 
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -33,9 +38,18 @@ public class MainController implements Initializable{
 
     @FXML
     MenuItem openProject;
+    
+    @FXML
+    MenuItem rename;
 
     @FXML
     MenuItem exportImage;
+    
+    @FXML
+    Slider zoomSlider;
+    
+    @FXML
+    MenuItem toggleGrid;
 
     @FXML
     HBox toolSelector;
@@ -52,7 +66,7 @@ public class MainController implements Initializable{
     @FXML
     TabPane tabPane;
     
-    void addTab(Tab editTab) {
+    private void addTab(Tab editTab) {
     	tabPane.getTabs().add(editTab);
         tabPane.getSelectionModel().select(editTab);
     }
@@ -108,15 +122,15 @@ public class MainController implements Initializable{
             fileChooser.setTitle("ファイル選択");
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             File file = fileChooser.showOpenDialog(new Stage());
+            if(file == null) return;
             try(
                 BufferedReader br = new BufferedReader(new FileReader(file));
             ){
                 StringBuilder buffer = new StringBuilder();
                 String line;
                 while((line = br.readLine()) != null){buffer.append(line);}
-                this.currentProject = new Project(
-                	JsonHandler.decodeProject(buffer.toString()), this.layerPanel
-                );
+                ProjectData projectData = JsonHandler.decodeProject(buffer.toString());
+                this.currentProject = new Project(projectData, this.layerPanel);
                 this.addTab(this.currentProject.loadEditTab());
                 this.colorChooserController.init(this.currentProject.getColor());
                 this.projectList.add(this.currentProject);
@@ -124,10 +138,42 @@ public class MainController implements Initializable{
                 ex.printStackTrace();
             }
         });
+        
+        this.rename.setOnAction(e->{
+        	if(this.currentProject == null) return;
+        	TextInputDialog iptDlg  = new TextInputDialog();
+            iptDlg.setTitle("プロジェクト名を変更");
+            iptDlg.setHeaderText(null);
+            iptDlg.setContentText("新しいプロジェクト名：");
+            Optional<String> result = iptDlg.showAndWait();
+            result.ifPresent(value -> this.currentProject.setTitle(value));
+        });
 
         this.exportImage.setOnAction(e->{
             if(this.currentProject != null)
                 this.currentProject.saveImage();
+        });
+        
+        this.zoomSlider.valueProperty().addListener((
+        	ObservableValue<? extends Number> obsv,
+        	Number newVal,
+        	Number oldVal
+        )->{
+        	if(this.currentProject != null)
+        		this.currentProject.setZoomRate((int) newVal.doubleValue());
+        });
+        
+        this.toggleGrid.setOnAction(e->{
+        	if(this.currentProject == null) return;
+        	this.currentProject.toggleGrid();
+        	switch(this.toggleGrid.getText()) {
+        	case "show Grid":
+        		this.toggleGrid.setText("hide Grid");
+        		break;
+        	case "hide Grid":
+        		this.toggleGrid.setText("show Grid");
+        		break;
+        	}
         });
 
         this.tabPane.getSelectionModel().selectedIndexProperty().addListener((obsv, ov, nv)->{

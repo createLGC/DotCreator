@@ -7,6 +7,7 @@ import com.kt.dotcreator.store.Layer;
 import com.kt.dotcreator.store.Project;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -22,6 +23,10 @@ import javafx.scene.layout.VBox;
 public class EditTabController {
 	@FXML
 	private Tab root;
+	
+	public Tab getRoot() {
+		return this.root;
+	}
 	
     @FXML
     private StackPane field;
@@ -57,6 +62,22 @@ public class EditTabController {
             	this.project.saveFile();
             }
         });
+    }
+    
+    public void resize() {
+    	int fieldSize = this.project.getCanvasSize(); 
+        this.field.setPrefSize(fieldSize, fieldSize);
+        for(Node child: this.field.getChildren()) {
+        	Canvas canvas = (Canvas) child;
+        	canvas.setWidth(fieldSize);
+        	canvas.setHeight(fieldSize);
+        	canvas.getGraphicsContext2D().clearRect(0, 0, fieldSize, fieldSize);
+        	if(canvas == this.gridCanvas) {
+        		this.initGridCanvas(fieldSize);
+        	}else {
+        		((LayerCanvas) canvas).drawContents();
+        	}
+        }
     }
 
     /**

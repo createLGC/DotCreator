@@ -50,11 +50,11 @@ public class AssetLabelController {
 	/**
 	 * 初期化メソッド。
 	 */
-	public void init(Color color, String colorCode, EventHandler<MouseEvent> onMouseClicked) {
+	public void init(Color color, String colorCode, EventHandler<MouseEvent> onMouseClicked, EventHandler<MouseEvent> onDelete) {
 		this.color = color;
 		this.colorSample.setFill(color);
 		this.label.setText(colorCode);
 		this.root.setOnMouseClicked(onMouseClicked);
-		this.deleteBtn.setOnMouseClicked(e->this.root.getParent().getChildrenUnmodifiable().remove(this.root));
+		this.deleteBtn.setOnMouseClicked(onDelete);
 	}
 }

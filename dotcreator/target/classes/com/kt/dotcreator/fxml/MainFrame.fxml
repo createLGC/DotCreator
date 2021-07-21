@@ -61,7 +61,7 @@
             <MenuItem fx:id="openProject" mnemonicParsing="false" text="Open…" />
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem fx:id="rename" mnemonicParsing="false" text="Rename" />
             <MenuItem mnemonicParsing="false" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
             <MenuItem mnemonicParsing="false" text="Revert" />
@@ -99,7 +99,7 @@
                         </CustomMenuItem>
                      </items>
                   </Menu>
-                  <MenuItem fx:id="toggleGrid" mnemonicParsing="false" text="show Grid" />
+                  <MenuItem fx:id="toggleGrid" mnemonicParsing="false" text="hide Grid" />
               </items>
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
