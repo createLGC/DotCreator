@@ -1,7 +1,5 @@
 package com.kt.dotcreator.controller;
 
-import java.util.Optional;
-
 import com.kt.dotcreator.component.LayerCanvas;
 import com.kt.dotcreator.store.Layer;
 import com.kt.dotcreator.store.Project;
@@ -10,17 +8,16 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class EditTabController {
+	/**
+	 * ルート要素であるタブ。
+	 */
 	@FXML
 	private Tab root;
 	
@@ -28,21 +25,30 @@ public class EditTabController {
 		return this.root;
 	}
 	
+	/**
+	 * キャンバスを内包する台紙
+	 */
     @FXML
     private StackPane field;
     
     public StackPane getField() {
     	return this.field;
     }
-
+    
+    /**
+     * グリッドを描画するキャンバス
+     */
     @FXML
     private Canvas gridCanvas;
-
+    
+    /**
+     * このコントローラーが所属するプロジェクト。
+     */
     private Project project;
 
     /**
      * project生成時に呼び出し。
-     * @see com.kt.dotcreator.store.Project#loadEditTab(TabPane tabPane)
+     * @see com.kt.dotcreator.store.Project#loadEditTab()
      * @param project 生成されたProject
      */
     public void init(Project project){
@@ -52,18 +58,11 @@ public class EditTabController {
         this.initGridCanvas(fieldSize);
         this.field.setOnMousePressed(this::draw);
         this.field.setOnMouseDragged(this::draw);
-        this.root.setOnClosed(e->{
-        	Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("プロジェクトの終了");
-            alert.setHeaderText(null);
-            alert.setContentText("プロジェクトを保存しますか?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-            	this.project.saveFile();
-            }
-        });
     }
     
+    /**
+     * フィールドとその中のキャンバスをサイズ変更。
+     */
     public void resize() {
     	int fieldSize = this.project.getCanvasSize(); 
         this.field.setPrefSize(fieldSize, fieldSize);
@@ -104,6 +103,7 @@ public class EditTabController {
     }
 
     /**
+     * レイヤーをグリッドキャンバスの下に追加。
      * @see com.kt.dotcreator.store.Project#addLayer(Layer layer, VBox layerPanel)
      * @param canvas LayerCanvas
      */
@@ -111,7 +111,11 @@ public class EditTabController {
         this.field.getChildren().remove(this.gridCanvas);
         this.field.getChildren().addAll(canvas, this.gridCanvas);
     }
-
+    
+    /**
+     * フィールドのマウスイベントを現在選択されているレイヤーキャンバスに渡し、レイヤーキャンバスに描画
+     * @param e
+     */
     public void draw(MouseEvent e){
         Layer currentLayer = this.project.getCurrentLayer();
         if(currentLayer != null)

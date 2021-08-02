@@ -16,23 +16,37 @@ import javafx.scene.paint.Color;
  * クリックされたところにコンテンツを描画
  */
 public class LayerCanvas extends Canvas{
+	/**
+	 * 所属するプロジェクト
+	 */
     Project project;
+    
+    /**
+     * 描画コンテキスト
+     */
     GraphicsContext ctx;
-
+    
+    /**
+     * ブロックごとに何が描画されているかを保持する配列。
+     */
     SquareData[][] contents;
 
     public SquareData[][] getContents(){return this.contents;}
 
     /**
-     * 引数contentsの要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
-     * ImageDataのインスタンスの時、Imageを生成し描画。
-     * @param contents SquareData[][] LayerDataから取得。一時限目のインデックスがy座標の何番目か、二次元目のインデックスがx座標の何番目かを表す。
+     * this.contentsに引数contentsを設定し、contentsにしたがって{@link LayerCanvas#drawContents()}で描画。
+     * 既存のプロジェクトを開くときに使用。
+     * @param contents LayerDataから取得
      */
     private void setContents(SquareData[][] contents){
         this.contents = contents;
         this.drawContents();
     }
     
+    /**
+     * this.contentsの要素であるcontentがColorDataのインスタンスの時、Colorを生成し描画。
+     * ImageDataのインスタンスの時、Imageを生成し描画。
+     */
     public void drawContents() {
     	int squareSize = this.project.getZoomedSquareSize();
         for(int y = 0; y < this.contents.length; y++){

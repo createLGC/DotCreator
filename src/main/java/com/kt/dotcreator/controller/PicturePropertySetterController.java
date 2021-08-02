@@ -32,9 +32,7 @@ public class PicturePropertySetterController implements Initializable{
                     Integer.parseInt(this.numOfSquaresASideField.getText()),
                     Integer.parseInt(this.squareSizeField.getText())
                 );
-            }catch(NumberFormatException ex){
-                ex.printStackTrace();
-            }
+            }catch(NumberFormatException ex) {}
         });
     }
 }

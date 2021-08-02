@@ -61,8 +61,8 @@
             <MenuItem fx:id="openProject" mnemonicParsing="false" text="Open…" />
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="rename" mnemonicParsing="false" text="Rename" />
-            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem fx:id="renameProject" mnemonicParsing="false" text="Rename" />
+            <MenuItem fx:id="saveProject" mnemonicParsing="false" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
             <MenuItem mnemonicParsing="false" text="Revert" />
                   <SeparatorMenuItem mnemonicParsing="false" />

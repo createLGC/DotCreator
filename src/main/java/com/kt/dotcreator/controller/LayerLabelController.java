@@ -44,6 +44,14 @@ public class LayerLabelController implements Initializable{
      */
     @FXML
     private ImageView visibleBtn;
+
+    /**
+     * レイヤーの表示・非表示を取得
+     * @return
+     */
+    public boolean isVisible(){
+        return this.visibleBtn.isVisible();
+    }
     
     /**
      * visibleBtnを押したときの処理
@@ -63,15 +71,7 @@ public class LayerLabelController implements Initializable{
     }
     
     /**
-     * レイヤーの表示・非表示を取得
-     * @return
-     */
-    public boolean isVisible(){
-        return this.visibleBtn.isVisible();
-    }
-    
-    /**
-     * 削除するボタン
+     * レイヤーを削除するボタン
      */
     @FXML
     private ImageView deleteBtn;

@@ -39,7 +39,7 @@ public class RgbaChooserController implements Initializable{
 
     /**
      * @see com.kt.dotcreator.controller.ColorChooserController#initialize(URL location, ResourceBundle resources)
-     * @param onChange colorChooserController#initializeで設定
+     * @param onChange {@link ColorChooserController#initialize(URL, ResourceBundle)}で設定
      */
     public void setOnChange(BiConsumer<Integer, Integer> onChange){
         this.onChange = onChange;
@@ -53,7 +53,12 @@ public class RgbaChooserController implements Initializable{
 
     @FXML
     private TextField field;
-
+    
+    /**
+     * 初期化メソッド。{@link ColorChooserController#initialize(URL, ResourceBundle)}で使用。
+     * @param labelChar
+     * @param value
+     */
     public void init(String labelChar, int value){
         this.label.setText(labelChar);
         this.setValue(value);
